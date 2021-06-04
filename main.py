@@ -1,4 +1,5 @@
 import requests
+from tkinter import messagebox
 from tkinter import *
 
 root = Tk()
@@ -13,56 +14,24 @@ def get_chucks_jokes():
     return data["value"]
 
 
-joke = Message(root, text=get_chucks_jokes(), bg="black", fg="#33FF00", font="20")
+joke = Message(root, text=get_chucks_jokes(), bg="black", fg="#FF10F0", font="20")
 joke.place(x=40, y=50)
 
 
 def refresh():
-    response = requests.get("https://api.chucknorris.io/jokes/random")
-    data = response.json()
-    jokes = data["value"]
-    joke.config(text=get_chucks_jokes())
+    try:
+        response = requests.get("https://api.chucknorris.io/jokes/random")
+        data = response.json()
+        jokes = data["value"]
+        joke.config(text=get_chucks_jokes())
+
+    except requests.exceptions.ConnectionError:
+        messagebox.showerror("Error", "No internet connection")
 
 
-refreshBtn = Button(root, text="Get Another Joke", borderwidth="3", bg="#33FF00", command=refresh)
-refreshBtn.place(x=40, y=180)
+
+
+refreshBtn = Button(root, text="Get Another Joke", borderwidth="3", bg="#FF10F0", command=refresh)
+refreshBtn.place(x=60, y=200)
 
 root.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#response = requests.get("https://api.chucknorris.io/jokes/random")
-#data = response.json()
-#print(data["value"])
